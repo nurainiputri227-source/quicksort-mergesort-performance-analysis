@@ -16,9 +16,9 @@
 - 50.000 data
 
 ## ⚙️ Teknologi
-- ☕ Java
-- 💻 Visual Studio Code
-- 🔧 JDK 11
+- Java
+- Visual Studio Code
+- JDK 11
 
 ## 📈 Hasil
 Pengujian menunjukkan bahwa:
