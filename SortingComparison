@@ -1,8 +1,9 @@
+import java.util.Arrays;
 import java.util.Random;
-
-public class SortingComparison {
+public class SortingPerformance {
 
     // QUICK SORT
+
     static void quickSort(int[] arr, int low, int high) {
         if (low < high) {
             int pivotIndex = partition(arr, low, high);
@@ -34,8 +35,10 @@ public class SortingComparison {
     }
 
     // MERGE SORT
+
     static void mergeSort(int[] arr, int left, int right) {
         if (left < right) {
+
             int mid = (left + right) / 2;
 
             mergeSort(arr, left, mid);
@@ -46,23 +49,27 @@ public class SortingComparison {
     }
 
     static void merge(int[] arr, int left, int mid, int right) {
+
         int n1 = mid - left + 1;
         int n2 = right - mid;
 
         int[] leftArray = new int[n1];
         int[] rightArray = new int[n2];
 
-        // Copy data ke array sementara
-        for (int i = 0; i < n1; i++)
+        for (int i = 0; i < n1; i++) {
             leftArray[i] = arr[left + i];
+        }
 
-        for (int j = 0; j < n2; j++)
+        for (int j = 0; j < n2; j++) {
             rightArray[j] = arr[mid + 1 + j];
+        }
 
-        int i = 0, j = 0, k = left;
+        int i = 0;
+        int j = 0;
+        int k = left;
 
-        // Merge kembali
         while (i < n1 && j < n2) {
+
             if (leftArray[i] <= rightArray[j]) {
                 arr[k] = leftArray[i];
                 i++;
@@ -70,17 +77,16 @@ public class SortingComparison {
                 arr[k] = rightArray[j];
                 j++;
             }
+
             k++;
         }
 
-        // Sisa elemen kiri
         while (i < n1) {
             arr[k] = leftArray[i];
             i++;
             k++;
         }
 
-        // Sisa elemen kanan
         while (j < n2) {
             arr[k] = rightArray[j];
             j++;
@@ -88,49 +94,68 @@ public class SortingComparison {
         }
     }
 
-    // GENERATE RANDOM DATA
-    static int[] generateData(int size) {
-        Random rand = new Random();
+    // GENERATE DATA
+
+    static int[] generateRandomData(int size) {
+
+        Random random = new Random();
+
         int[] data = new int[size];
 
         for (int i = 0; i < size; i++) {
-            data[i] = rand.nextInt(100001); // 0 - 100.000
+            data[i] = random.nextInt(100000);
         }
 
         return data;
     }
 
-    // MAIN PROGRAM
+    // MAIN 
+
     public static void main(String[] args) {
 
-        int[] sizes = {100, 1000, 5000, 10000, 50000};
+        int[] dataSizes = {100, 1000, 5000, 10000, 50000};
 
-        System.out.println("=== PERBANDINGAN QUICK SORT & MERGE SORT ===\n");
+        System.out.println("==============================================");
+        System.out.println("PERBANDINGAN QUICK SORT DAN MERGE SORT");
+        System.out.println("==============================================");
 
-        for (int size : sizes) {
+        System.out.printf("%-12s %-20s %-20s%n",
+                "Jumlah Data",
+                "Quick Sort (ns)",
+                "Merge Sort (ns)");
 
-            int[] data1 = generateData(size);
-            int[] data2 = data1.clone(); // copy untuk merge sort
+        for (int size : dataSizes) {
 
-            // ---------------- QUICK SORT ----------------
+            int[] originalData = generateRandomData(size);
+
+            int[] quickData = Arrays.copyOf(originalData,
+                    originalData.length);
+
+            int[] mergeData = Arrays.copyOf(originalData,
+                    originalData.length);
+
+            // Quick Sort
             long startQuick = System.nanoTime();
-            quickSort(data1, 0, data1.length - 1);
+
+            quickSort(quickData, 0, quickData.length - 1);
+
             long endQuick = System.nanoTime();
 
-            long timeQuick = endQuick - startQuick;
+            long quickTime = endQuick - startQuick;
 
-            // ---------------- MERGE SORT ----------------
+            // Merge Sort
             long startMerge = System.nanoTime();
-            mergeSort(data2, 0, data2.length - 1);
+
+            mergeSort(mergeData, 0, mergeData.length - 1);
+
             long endMerge = System.nanoTime();
 
-            long timeMerge = endMerge - startMerge;
+            long mergeTime = endMerge - startMerge;
 
-            // ---------------- OUTPUT ----------------
-            System.out.println("Ukuran Data : " + size);
-            System.out.println("Quick Sort  : " + timeQuick + " ns");
-            System.out.println("Merge Sort  : " + timeMerge + " ns");
-            System.out.println("-----------------------------------");
+            System.out.printf("%-12d %-20d %-20d%n",
+                    size,
+                    quickTime,
+                    mergeTime);
         }
     }
 }
